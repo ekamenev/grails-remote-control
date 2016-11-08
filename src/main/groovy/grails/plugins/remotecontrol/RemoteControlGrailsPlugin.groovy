@@ -16,10 +16,8 @@
 package grails.plugins.remotecontrol
 
 import grails.plugins.Plugin
-import grails.util.BuildSettings
-import grails.web.mapping.LinkGenerator
 import org.apache.commons.logging.LogFactory
-import org.springframework.boot.context.embedded.ServletRegistrationBean
+import org.springframework.boot.web.servlet.ServletRegistrationBean
 
 class RemoteControlGrailsPlugin extends Plugin {
 
@@ -54,25 +52,5 @@ Remotely control a Grails application (for functional testing)
                 loadOnStartup = 1
             }
         }
-    }
-
-    void doWithApplicationContext() {
-        String baseUrl = getBaseUrl()
-        System.setProperty(BuildSettings.FUNCTIONAL_BASE_URL_PROPERTY, baseUrl)
-        LOG.info "using grails application runing at ${baseUrl}"
-    }
-
-    private String getBaseUrl() {
-        String baseUrl = System.getProperty('baseUrl')
-        if (!baseUrl) {
-            baseUrl = getDefaultBaseUrl()
-        }
-        baseUrl
-    }
-
-    private String getDefaultBaseUrl() {
-        def ctx = grailsApplication.mainContext
-        LinkGenerator linkGenerator = ctx.getBean("grailsLinkGenerator", LinkGenerator)
-        linkGenerator.serverBaseURL
     }
 }

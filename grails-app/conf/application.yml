@@ -48,7 +48,7 @@ grails:
             proxies: false
 info:
     app:
-        name: '@info.app.name@'
+        name: 'remote-control'
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
 spring:

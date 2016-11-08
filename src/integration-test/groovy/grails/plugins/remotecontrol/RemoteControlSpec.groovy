@@ -16,12 +16,13 @@
 package grails.plugins.remotecontrol
 
 import grails.test.mixin.integration.Integration
-import grails.transaction.Rollback
+import grails.util.BuildSettings
 import io.remotecontrol.UnserializableCommandException
 import io.remotecontrol.client.RemoteException
 import io.remotecontrol.client.UnserializableReturnException
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import spock.lang.Specification
-
 /**
  * This test case shows how to use the remote control and some of it's limitations
  * with regard to serialisation and scope.
@@ -41,10 +42,15 @@ import spock.lang.Specification
 @Integration(applicationClass = Application)
 class RemoteControlSpec extends Specification {
 
+    @Autowired
+    @Value('${local.server.port}')
+    Integer serverPort
+
     RemoteControl remote
     def anIvar = 2
 
     void setup() {
+        System.setProperty (BuildSettings.FUNCTIONAL_BASE_URL_PROPERTY, "http://localhost:$serverPort")
         remote = new RemoteControl()
     }
 
@@ -70,7 +76,7 @@ class RemoteControlSpec extends Specification {
         remote.exec { Person.countByName("Me") } == 1
 
         when:
-        remote.exec { Person.get(id).delete() }
+        remote.exec { Person.get(id).delete(flush: true) }
 
         then:
         remote.exec { Person.countByName("Me") } == 0

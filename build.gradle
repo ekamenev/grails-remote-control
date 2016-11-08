@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails.plugins:hibernate4:5.0.2"
+        classpath "org.grails.plugins:hibernate5:6.0.2"
     }
 }
 
@@ -48,12 +48,13 @@ dependencies {
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
     compile "org.grails.plugins:scaffolding"
+    compile "org.hibernate:hibernate-core:5.1.1.Final"
     compile "io.remotecontrol:remote-core:0.7"
     compile "io.remotecontrol:remote-transport-http:0.7", {
         exclude module: "servlet-api"
     }
 
-    runtime 'org.grails.plugins:hibernate4'
+    runtime "org.grails.plugins:hibernate5"
     runtime 'org.hibernate:hibernate-ehcache'
     runtime "com.h2database:h2"
 
